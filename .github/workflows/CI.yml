@@ -23,21 +23,21 @@ jobs:
       - name: Build and push Posts Microservice Docker image
         uses: docker/build-push-action@v2
         with:
-          context: ./3-microservices/services/1.posts
+          context: ./3-microservices/services/posts
           push: true
           tags: chetanpatil2003/posts-service:${{ github.sha }}
 
       - name: Build and push Threads Microservice Docker image
         uses: docker/build-push-action@v2
         with:
-          context: ./3-microservices/services/2.threads
+          context: ./3-microservices/services/threads
           push: true
           tags: chetanpatil2003/threads-service:${{ github.sha }}
 
       - name: Build and push Users Microservice Docker image
         uses: docker/build-push-action@v2
         with:
-          context: ./3-microservices/services/3.users
+          context: ./3-microservices/services/users
           push: true
           tags: chetanpatil2003/users-service:${{ github.sha }}
 
@@ -47,19 +47,19 @@ jobs:
           node-version: '14'  # Adjust the Node.js version as needed
 
       - name: Install dependencies and run tests for Posts Microservice
-        working-directory: ./3-microservices/services/1.posts
+        working-directory: ./3-microservices/services/posts
         run: |
           npm install
           npm test
 
       - name: Install dependencies and run tests for Threads Microservice
-        working-directory: ./3-microservices/services/2.threads
+        working-directory: ./3-microservices/services/threads
         run: |
           npm install
           npm test
 
       - name: Install dependencies and run tests for Users Microservice
-        working-directory: ./3-microservices/services/3.users
+        working-directory: ./3-microservices/services/users
         run: |
           npm install
           npm test
