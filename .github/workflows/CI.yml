@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build_test_package:
+    name: Build, Test, and Package Microservices
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14' # Adjust the Node.js version as needed
+
+      - name: Build, Test, and Package Posts Microservice
+        working-directory: ./3-microservices/services/1.posts
+        run: |
+          npm install
+          npm test
+          npm run build
+          # Add additional packaging steps if needed
+
+      - name: Build, Test, and Package Threads Microservice
+        working-directory: ./3-microservices/services/2.threads
+        run: |
+          npm install
+          npm test
+          npm run build
+          # Add additional packaging steps if needed
+
+      - name: Build, Test, and Package Users Microservice
+        working-directory: ./3-microservices/services/3.users
+        run: |
+          npm install
+          npm test
+          npm run build
+          # Add additional packaging steps if needed
+
+      # You can add more steps for additional microservices if you have them
+
