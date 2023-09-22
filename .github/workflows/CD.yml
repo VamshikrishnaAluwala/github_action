@@ -18,9 +18,9 @@ jobs:
       # Set up SSH key for connecting to your EC2 instance.
       - name: Configure SSH Key
         run: |
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H <your-ec2-instance-ip> >> ~/.ssh/known_hosts
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/jenkins.pem
+          chmod 600 ~/jenkins.pem
+          ssh-keyscan -H 13.233.157.199 >> ~/.ssh/known_hosts
           chmod 644 ~/.ssh/known_hosts
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
