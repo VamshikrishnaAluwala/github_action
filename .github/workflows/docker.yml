@@ -1,4 +1,4 @@
-name: Publish Docker images
+name: Publish Docker Images
 
 on:
   push:
@@ -6,16 +6,9 @@ on:
       - main
 
 jobs:
-  push_to_registry:
-    name: Push Docker images to Docker Hub
+  push_posts:
+    name: Push Posts Microservice Docker Image
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        service:
-          - posts
-          - threads
-          - users
 
     steps:
       - name: Checkout the repository
@@ -27,16 +20,51 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v3
-        with:
-          images: chetanpatil2003/testnodejsapp-${{ matrix.service }}
-      
-      - name: Build and push Docker image
+      - name: Build and push Posts Microservice Docker image
         uses: docker/build-push-action@v2
         with:
-          context: ./3-microservices/services/${{ matrix.service }}
+          context: ./3-microservices/services/posts
           push: true
-          tags: chetanpatil2003/testnodejsapp-${{ matrix.service }}:${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: chetanpatil2003/posts-service:${{ github.sha }}
+
+  push_threads:
+    name: Push Threads Microservice Docker Image
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push Threads Microservice Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: ./3-microservices/services/threads
+          push: true
+          tags: chetanpatil2003/threads-service:${{ github.sha }}
+
+  push_users:
+    name: Push Users Microservice Docker Image
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push Users Microservice Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: ./3-microservices/services/users
+          push: true
+          tags: chetanpatil2003/users-service:${{ github.sha }}
