@@ -63,27 +63,27 @@ jobs:
         run: |
           npm install
           npm test
-  deploy:
-    needs: build_test
-    runs-on: ubuntu-latest
-    steps:
-      - name: pull the image from docker
-        run: docker pull chetanpatil2003/posts-service:${{ github.sha }}
+  # deploy:
+  #   needs: build_test
+  #   runs-on: ubuntu-latest
+  #   steps:#
+  #     - name: pull the image from docker
+  #       run: docker pull chetanpatil2003/posts-service:{{ github.sha }}
 
-      - name: pull the image from docker
-        run: docker pull chetanpatil2003/posts-threads:${{ github.sha }}
+  #     - name: pull the image from docker
+  #       run: docker pull chetanpatil2003/posts-threads:{{ github.sha }}
     
-      - name: pull the image from docker
-        run: docker pull chetanpatil2003/posts-users:${{ github.sha }}
-      - name: Delete old container  
-        run: docker rm -f posts-service-container         
-      - name: Delete old container  
-        run: docker rm -f posts-threads-container
-      - name: Delete old container  
-        run: docker rm -f posts-users-container
-      - name: run docker image
-        run: docker run -d -p 3000:3000 -posts-service-container chetanpatil2003/posts-service  
-      - name: run docker image
-        run: docker run -d -p 3000:3000 -posts-threads-container chetanpatil2003/posts-threads
-      - name: run docker image
-        run: docker run -d -p 3000:3000 -posts-users-container chetanpatil2003/posts-users
+  #     - name: pull the image from docker
+  #       run: docker pull chetanpatil2003/posts-users:{{ github.sha }}
+  #     - name: Delete old container  
+  #       run: docker rm -f posts-service-container         
+  #     - name: Delete old container  
+  #       run: docker rm -f posts-threads-container
+  #     - name: Delete old container  
+  #       run: docker rm -f posts-users-container
+  #     - name: run docker image
+  #       run: docker run -d -p 3000:3000 -posts-service-container chetanpatil2003/posts-service  
+  #     - name: run docker image
+  #       run: docker run -d -p 3000:3000 -posts-threads-container chetanpatil2003/posts-threads
+  #     - name: run docker image
+  #       run: docker run -d -p 3000:3000 -posts-users-container chetanpatil2003/posts-users
