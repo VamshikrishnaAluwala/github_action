@@ -65,7 +65,7 @@ jobs:
           npm test
   deploy:
     needs: build_test
-    runs-on: [aws-git]
+    runs-on: ubuntu-latest
     steps:
       - name: pull the image from docker
         run: docker pull chetanpatil2003/posts-service:${{ github.sha }}
