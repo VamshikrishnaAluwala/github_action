@@ -63,23 +63,23 @@ jobs:
         run: |
           npm install
           npm test
-  deploy:
-    needs: build_test
-    runs-on: ubuntu-latest
-    steps:
-      - name: deploying to EC2
-        uses: actions/checkout@v2
-        with: 
-         host: ${{secrets.EC2_HOST}}
-         username: ${{secrets.EC2_USERNAME}}
-         key: ${{secrets.EC2_PRIVATE_KEY}}
-         script:  
-            docker pull chetanpatil2003/posts-service:${{ github.sha }}
-            docker pull chetanpatil2003/threads-service:${{ github.sha }}
-            docker pull chetanpatil2003/users-service:${{ github.sha }}
-            docker rm -f posts-service-container
-            docker rm -f threads-service-container
-            docker rm -f users-service-container
-            docker run -d --name posts-service -p 8081:3000 chetanpatil2003/posts-service:${{ github.sha }}
-            docker run -d --name threads-service -p 8082:3000 chetanpatil2003/threads-service:${{ github.sha }}
-            docker run -d --name users-service -p 8083:3000 chetanpatil2003/users-service:${{ github.sha }}
+  # deploy:
+  #   needs: build_test
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: deploying to EC2
+  #       uses: actions/checkout@v2
+  #       with: 
+  #        host: {{secrets.EC2_HOST}}
+  #        username: {{secrets.EC2_USERNAME}}
+  #        key: {{secrets.EC2_PRIVATE_KEY}}
+  #        script:  
+  #           docker pull chetanpatil2003/posts-service:{{ github.sha }}
+  #           docker pull chetanpatil2003/threads-service:{{ github.sha }}
+  #           docker pull chetanpatil2003/users-service:{{ github.sha }}
+  #           docker rm -f posts-service-container
+  #           docker rm -f threads-service-container
+  #           docker rm -f users-service-container
+  #           docker run -d --name posts-service -p 8081:3000 chetanpatil2003/posts-service:{{ github.sha }}
+  #           docker run -d --name threads-service -p 8082:3000 chetanpatil2003/threads-service:{{ github.sha }}
+  #           docker run -d --name users-service -p 8083:3000 chetanpatil2003/users-service:{{ github.sha }}
