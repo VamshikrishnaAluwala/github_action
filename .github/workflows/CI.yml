@@ -53,13 +53,13 @@ jobs:
           npm test
 
       - name: Install dependencies and run tests for Threads Microservice
-        working-directory: ./3-microservices/services
+        working-directory: ./3-microservices/services/threads
         run: |
           npm install
           npm test
 
       - name: Install dependencies and run tests for Users Microservice
-        working-directory: ./3-microservices/services
+        working-directory: ./3-microservices/services/users
         run: |
           npm install
           npm test
