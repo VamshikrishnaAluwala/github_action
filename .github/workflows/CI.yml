@@ -71,7 +71,7 @@ jobs:
         uses: appleboy/ssh-action@master
         with: 
          host: ${{secrets.EC2_HOST}}
-         usename: ${{secrets.EC2_USERNAME}}
+         username: ${{secrets.EC2_USERNAME}}
          key: ${{secrets.EC2_PRIVATE_KEY}}
          script:  
             docker pull chetanpatil2003/posts-service:{{ github.sha }}
