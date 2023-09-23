@@ -1,0 +1,48 @@
+name: Deploy to AWS EC2
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    name: Deploy to EC2 Instance
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+
+      # Set up SSH key for connecting to your EC2 instance.
+      - name: Configure SSH Key
+        run: |
+          # Convert the Jenkins SSH key to OpenSSH format
+          ssh-keygen -p -m PEM -f "C:\Users\chetan.p\Downloads\jenkins" -e > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H 13.233.157.199 >> ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      # SSH into your EC2 instance and perform deployment steps.
+      - name: SSH into EC2 and deploy Docker containers
+        run: |
+          ssh -i ~/.ssh/id_rsa ec2-user@<your-ec2-instance-ip> <<EOF
+            # Update Docker images
+            docker pull chetanpatil2003/posts-service:${{ github.sha }}
+            docker pull chetanpatil2003/threads-service:${{ github.sha }}
+            docker pull chetanpatil2003/users-service:${{ github.sha }}
+
+            # Stop and remove existing containers
+            docker stop posts-container threads-container users-container || true
+            docker rm posts-container threads-container users-container || true
+
+            # Run new containers
+            docker run -d --name posts-container -p 8080:3000 chetanpatil2003/posts-service:${{ github.sha }}
+            docker run -d --name threads-container -p 8081:3000 chetanpatil2003/threads-service:${{ github.sha }}
+            docker run -d --name users-container -p 8082:3000 chetanpatil2003/users-service:${{ github.sha }}
+          EOF
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
