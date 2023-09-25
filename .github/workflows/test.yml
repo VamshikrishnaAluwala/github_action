@@ -1,0 +1,39 @@
+name: Install Dependencies and Run Tests
+
+on:
+  workflow_run:
+    workflows: ["Build and Push Docker Images"]
+    types:
+      - completed
+
+jobs:
+  test_microservices:
+    name: Install Dependencies and Run Tests for Microservices
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js (for testing)
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'  # Adjust the Node.js version as needed
+
+      - name: Install dependencies and run tests for Posts Microservice
+        working-directory: ./3-microservices/services/posts
+        run: |
+          npm install
+          npm test
+
+      - name: Install dependencies and run tests for Threads Microservice
+        working-directory: ./3-microservices/services/threads
+        run: |
+          npm install
+          npm test
+
+      - name: Install dependencies and run tests for Users Microservice
+        working-directory: ./3-microservices/services/users
+        run: |
+          npm install
+          npm test
