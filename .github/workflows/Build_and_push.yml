@@ -25,21 +25,21 @@ jobs:
         with:
           context: ./3-microservices/services/posts
           push: true
-          tags: chetanpatil2003/posts-service:${{ github.sha }}
+          tags: vamshialuwala/posts-service:${{ github.sha }}
 
       - name: Build and push Threads Microservice Docker image
         uses: docker/build-push-action@v2
         with:
           context: ./3-microservices/services/threads
           push: true
-          tags: chetanpatil2003/threads-service:${{ github.sha }}
+          tags: vamshialuwala/threads-service:${{ github.sha }}
 
       - name: Build and push Users Microservice Docker image
         uses: docker/build-push-action@v2
         with:
           context: ./3-microservices/services/users
           push: true
-          tags: chetanpatil2003/users-service:${{ github.sha }}
+          tags: vamshialuwala/users-service:${{ github.sha }}
 
   # deploy:
   #   needs: build_test
@@ -47,11 +47,11 @@ jobs:
   #   steps:
   #     - name: deploying to EC2
   #       uses: actions/checkout@v2
-  #       with: 
+  #       with:
   #        host: {{secrets.EC2_HOST}}
   #        username: {{secrets.EC2_USERNAME}}
   #        key: {{secrets.EC2_PRIVATE_KEY}}
-  #        script:  
+  #        script:
   #           docker pull chetanpatil2003/posts-service:{{ github.sha }}
   #           docker pull chetanpatil2003/threads-service:{{ github.sha }}
   #           docker pull chetanpatil2003/users-service:{{ github.sha }}
